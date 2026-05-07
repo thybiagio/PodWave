@@ -2,14 +2,16 @@
   "name": "podwave",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
+
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "express-session": "^1.19.0",
