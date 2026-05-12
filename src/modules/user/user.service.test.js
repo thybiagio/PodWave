@@ -36,3 +36,21 @@ it (' Red - deve retornar erro se a senha tiver menos de 8 caracteres', async ()
     
     await expect(userService.register(data, mockUserModel)).rejects.toThrow('A senha deve ter pelo menos 8 caracteres');
 });
+
+// Teste 3: Usuário já existe
+it('deve retornar erro se o username ou e-mail já estiverem cadastrados', async () => {
+    const data = {
+        username: 'paulo',
+        email: 'paulo@test',
+        password: '12345678',
+        confirmPassword: '12345678',
+    };
+
+    // Simula que o usuário já existe
+    mockUserModel.findOne.mockResolvedValue({ id: 1}); //username existe
+
+    await expect(userService.register(data, mockUserModel))
+        .rejects
+        .toThrow('Este e-mail ou usuário já está cadastrado.');
+
+});
