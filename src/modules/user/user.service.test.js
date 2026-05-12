@@ -24,3 +24,15 @@ describe('User Service - Cadastro', () => {
         await expect(userService.register(data, mockUserModel)).rejects.toThrow('As senhas não coincidem');
     });
 });
+
+// Teste 2: senha muito curta
+it (' Red - deve retornar erro se a senha tiver menos de 8 caracteres', async () => {
+    const data = {
+        username: 'paulo',
+        email: 'paulo@test.com',
+        password: '1234',
+        confirmPassword: '123',
+    };
+    
+    await expect(userService.register(data, mockUserModel)).rejects.toThrow('A senha deve ter pelo menos 8 caracteres');
+});
