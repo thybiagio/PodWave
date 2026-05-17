@@ -1,29 +1,44 @@
-import { Op } from 'sequelize';
+import bcrypt from 'bycrypt';
 
 export const register = async (data, UserModel) => {
-    const { username, email, password, confirmPassword, fullName } = data;
+    const { username, email, password, confirmPassword, fullName = null } = data;
 
-    // Validação 1: senhas coincidem
     if (password !== confirmPassword) {
         throw new Error('As senhas não coincidem');
     }
 
-    // Validação 2: senha tem pelo menos 8 caracteres
     if (password.length < 8) {
-        throw new Error('A senha deve ter pelo menos 8 caracteres');
+        throw new Error('A senha deve ter no mínimo 8 caracteres.');
     }
 
-    // Validação 3: username ou email já existe
+    // Verifica se o usuário já existe
     const existingUser = await UserModel.findOne({
-        where: { 
-            [Op.or]: [{ username }, { email }]
-         }
+        where: { [require('sequelize').Op.or]: [{ username }, { email }] }
     });
 
-    if (existingUser) {
+    if (existingUser) { 
         throw new Error('Este e-mail ou usuário já está cadastrado.');
     }
 
-    return { message: 'Usuário criado com sucesso (ainda sem salvar no banco)' };
-};
+    // Hash da senha (RN-001)
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Criação do usuário
+    const newUser = await UserModel.create({
+        username,
+        email,
+        password: hashedPassword,
+        fullName
+    });
+
+    return {
+        message: 'Usuário criado com sucesso!',
+        user: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            fullName: newUser.fullName
+        }
+    };
+};

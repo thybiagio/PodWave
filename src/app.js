@@ -6,10 +6,12 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import expressLayouts from 'express-ejs-layouts';
 import dotenv from 'dotenv';
+import userRoutes from './modules/user/user.routes.js';
 dotenv.config();
 
 const app = express();
 
+app.use('/', userRoutes);
 
 //Configuração do EJS + Layouts
 app.set('views', path.join(process.cwd(), 'src/views/pages'));
