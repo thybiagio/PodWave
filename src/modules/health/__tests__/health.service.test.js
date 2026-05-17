@@ -1,4 +1,4 @@
-export { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { getHealth } from'../health.service.js';
 import bcrypt from 'bcrypt';
 
