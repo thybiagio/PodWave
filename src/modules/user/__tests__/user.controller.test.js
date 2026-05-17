@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import request from 'supertest';
 import app from '../../../app.js';
 import * as userService from '../user.service.js';
-import { id } from 'happy-dom/lib/PropertySymbol.js';
 
 vi.mock('../user.service.js');
+vi.mock('../user.model.js');
 
 describe('User Controller - Cadastro', () => {
     beforeEach(() => {

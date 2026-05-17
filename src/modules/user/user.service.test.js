@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import * as userService from './user.service.js';
+import bcrypt from 'bcryptjs';
 
 describe('User Service - Cadastro', () => { 
     let mockUserModel;
@@ -33,7 +34,9 @@ describe('User Service - Cadastro', () => {
             confirmPassword: '1234',
         };
         
-        await expect(userService.register(data, mockUserModel)).rejects.toThrow('A senha deve ter pelo menos 8 caracteres');
+        await expect(userService.register(data, mockUserModel))
+        .rejects
+        .toThrow('A senha deve ter no mínimo 8 caracteres.');
     });
 
     // Teste 3: Usuário já existe
@@ -51,5 +54,25 @@ describe('User Service - Cadastro', () => {
         await expect(userService.register(data, mockUserModel))
             .rejects
             .toThrow('Este e-mail ou usuário já está cadastrado.');
+    });
+
+    it('deve fazer login com sucesso usando email ou username', async() => {
+    const mockUser = {
+        id: 1,
+        username: 'paulo',
+        email: 'paulo@test.com',
+        password: '$2b$10$6QwM3mEVTc6VIWdxM0j6weRb3FxOcQmpFzBJK.F2Js1ChjZ8sX3Dm', 
+        fullName: 'Paulo Teste'
+    };
+
+    mockUserModel.findOne.mockResolvedValueOnce(mockUser); // Simula busca por email
+    // Simular bcrypt.compare
+    vi.spyOn(bcrypt, 'compare').mockResolvedValueOnce(true); // Simula senha correta
+
+    const result = await userService.login('paulo', 'teste123', mockUserModel);
+
+    expect(result.id).toBe(1);
+    expect(result.username).toBe('paulo');
+
     });
 });

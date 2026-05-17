@@ -1,4 +1,4 @@
-import bcrypt from 'bycrypt';
+import bcrypt from 'bcryptjs';
 
 export const register = async (data, UserModel) => {
     const { username, email, password, confirmPassword, fullName = null } = data;

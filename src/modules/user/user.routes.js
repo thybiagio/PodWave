@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import * as userController from '.user/controller.js';
+import * as userController from './user.controller.js';
 import isAuthenticated from '../../middlewares/auth.js';
 
 //GET /register -> mostra formulário

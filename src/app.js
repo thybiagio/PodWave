@@ -11,8 +11,6 @@ dotenv.config();
 
 const app = express();
 
-app.use('/', userRoutes);
-
 //Configuração do EJS + Layouts
 app.set('views', path.join(process.cwd(), 'src/views/pages'));
 app.set('layout', path.join(process.cwd(), 'src/views/layouts/main'));
@@ -41,6 +39,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/', userRoutes);
 //Rotas
 app.get('/', (req, res) => res.render('index', { title: 'PodWave'}));
 
