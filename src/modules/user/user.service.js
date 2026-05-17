@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 export const register = async (data, UserModel) => {
     const { username, email, password, confirmPassword, fullName } = data;
 
@@ -6,15 +8,15 @@ export const register = async (data, UserModel) => {
         throw new Error('As senhas não coincidem');
     }
 
-    //Validação 2: senha tem pelo menos 8 caracteres
+    // Validação 2: senha tem pelo menos 8 caracteres
     if (password.length < 8) {
         throw new Error('A senha deve ter pelo menos 8 caracteres');
     }
 
-    //Validação 3: username ou email já existe
+    // Validação 3: username ou email já existe
     const existingUser = await UserModel.findOne({
         where: { 
-            [require('sequelize').Op.or]: [{username}, {email}]
+            [Op.or]: [{ username }, { email }]
          }
     });
 
