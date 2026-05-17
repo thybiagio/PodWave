@@ -42,3 +42,43 @@ export const register = async (data, UserModel) => {
         }
     };
 };
+
+export const login = async (loginInput, password, UserModel) => {
+    //Busca por email OU username
+    const user = await UserModel.findOne({
+        where: { 
+            [require('sequelize').Op.or]: [
+                { email: loginInput },
+                { username: loginInput }
+            ]
+        }
+    })
+
+
+    if (!user) {
+    throw new Error('Email/Usuário não encontrado');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+    throw new Error('E-mail/Usuário ou senha incorretos');
+    }
+
+    return { 
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    fullName: user.fullName,
+    profilePicture: user.profilePicture
+    };
+};
+
+//Função auxiliar para buscar perfil
+export const getProfile = async (userId, UserModel) => {
+    const user = await UserModel.findByPk(userId, {
+        attributes: ['id', 'username', 'email', 'fullName', 'bio', 'profilePicture']
+    });
+
+    if (!user) throw new Error('Usuário não encontrado.');
+    return user;
+};

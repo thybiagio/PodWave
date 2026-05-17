@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import request from 'supertest';
 import app from '../../../app.js';
 import * as userService from '../user.service.js';
+import { id } from 'happy-dom/lib/PropertySymbol.js';
 
 vi.mock('../user.service.js');
 
@@ -42,5 +43,23 @@ describe('User Controller - Cadastro', () => {
 
         expect(response.status).toBe(302); //redirect
         expect(response.headers.location).toBe('/register');
+    });
+
+    it('deve fazer login com sucesso e redirecionar para /feed', async () => {
+        //Mock do service
+        userService.login.mockResolvedValueOnce({
+            id: 1,
+            username: 'testuser',
+        });
+
+        const response = await request(app)
+            .post('/login')
+            .send({
+                login: 'testuser',
+                password: '12345678'
+            });
+
+        expect(response.status).toBe(302); 
+        expect(response.headers.location).toBe('/feed');
     });
 });
