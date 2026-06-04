@@ -7,7 +7,7 @@ import flash from 'connect-flash';
 import expressLayouts from 'express-ejs-layouts';
 import dotenv from 'dotenv';
 import userRoutes from './modules/user/user.routes.js';
-import videoRoutes from'./modules/video/video.routes.js';
+import episodeRoutes from './modules/episode/episode.routes.js';
 dotenv.config();
 
 const app = express();
@@ -45,8 +45,8 @@ app.use('/', userRoutes);
 app.get('/', (req, res) => res.render('index', { title: 'PodWave'}));
 
 //404
-app.use((req, res) => res.status(404).render('error'));
+app.use((req, res) => res.status(404).send('Página não encontrada'));
 
-app.use('/', videoRoutes);
+app.use('/', episodeRoutes);
 
 export default app;

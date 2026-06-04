@@ -27,6 +27,7 @@
     "sql2": "^0.0.1"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.5",
     "@vitest/ui": "^4.1.5",
     "happy-dom": "^20.9.0",
     "nodemon": "^3.1.14",
