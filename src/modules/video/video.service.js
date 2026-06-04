@@ -3,7 +3,7 @@ export const uploadVideo = async (data, files, VideoModel, userId) => {
     const videoFile = files.video?.[0];
     const thumbnailFile = files.thumbnail?.[0];
 
-    if(!title) throw new Error('Otítulo do vídeo é obrigatório.');
+    if(!title) throw new Error('OTítulo é obrigatório.');
     if(!videoFile) throw new Error('O arquivo de vídeo é obrigatório.');
     if(!thumbnailFile) throw new Error('A thumbnail é obrigatória.');
 
