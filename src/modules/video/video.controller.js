@@ -10,7 +10,14 @@ export const upload = async (req, res) => {
             req.session.user.id
         );
 
-        req
-        
+        req.flash('success', result.message);
+        res.redirect('/feed');
+    } catch (error) { 
+        req.flash('error', error.message);
+        res.redirect('/upload');
     }
-}
+};
+
+export const getUploadForm = (req, res) => { 
+    res.render('upload', { title: 'Novo Vídeo' });
+};
