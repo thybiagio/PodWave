@@ -9,23 +9,32 @@
 <body>
 
     <nav>
-        <div class="container">
-            <a href="/" class="nav-brand">🎙 PodWave</a>
+        <div class="container nav-inner">
+            <a href="/" class="nav-brand">
+                <span class="nav-logo">🎙</span>
+                PodWave
+            </a>
             <div class="nav-links">
                 <% if (user) { %>
-                    <a href="/episodes" class="btn btn-ghost">Explorar</a>
-                    <a href="/upload" class="btn btn-ghost">Publicar</a>
-                    <a href="/logout" class="btn btn-ghost">Sair</a>
+                    <a href="/episodes" class="nav-link">Explorar</a>
+                    <a href="/upload" class="nav-link">Publicar</a>
+                    <a href="/profile" class="nav-avatar-btn">
+                        <div class="nav-avatar">
+                            <span><%= user.username.charAt(0).toUpperCase() %></span>
+                        </div>
+                        <span class="nav-username"><%= user.username %></span>
+                    </a>
+                    <a href="/logout" class="btn btn-ghost btn-sm">Sair</a>
                 <% } else { %>
-                    <a href="/login" class="btn btn-ghost">Entrar</a>
-                    <a href="/register" class="btn btn-primary">Criar conta</a>
+                    <a href="/episodes" class="nav-link">Explorar</a>
+                    <a href="/login" class="btn btn-ghost btn-sm">Entrar</a>
+                    <a href="/register" class="btn btn-primary btn-sm">Criar conta</a>
                 <% } %>
             </div>
         </div>
     </nav>
 
     <main class="container">
-
         <% if (messages.error && messages.error.length > 0) { %>
             <div class="flash flash-error"><%= messages.error[0] %></div>
         <% } %>
@@ -34,8 +43,14 @@
         <% } %>
 
         <%- body %>
-
     </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>© 2026 PodWave</span>
+            <span>Feito com 🎙 e Node.js</span>
+        </div>
+    </footer>
 
 </body>
 </html>

@@ -12,41 +12,35 @@ dotenv.config();
 
 const app = express();
 
-//Configuração do EJS + Layouts
 app.set('views', path.join(process.cwd(), 'src/views/pages'));
 app.set('layout', path.join(process.cwd(), 'src/views/layouts/main'));
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
-//Middlewares globais
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(process.cwd(), 'src/public')));
 
-//Sessão + Flash
-app.use(session({ 
-    secret: process.env.SESSION_SECRET, 
+app.use(session({
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 app.use(flash());
-app.use((req, res, next) => { 
+app.use((req, res, next) => {
     res.locals.messages = req.flash();
     res.locals.user = req.session.user || null;
     res.locals.title = 'PodWave';
     next();
 });
 
+app.get('/', (req, res) => res.render('index', { title: 'PodWave' }));
 app.use('/', userRoutes);
-//Rotas
-app.get('/', (req, res) => res.render('index', { title: 'PodWave'}));
-
-//404
-app.use((req, res) => res.status(404).send('Página não encontrada'));
-
 app.use('/', episodeRoutes);
+
+app.use((req, res) => res.status(404).render('404', { title: 'Página não encontrada' }));
 
 export default app;

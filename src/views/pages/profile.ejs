@@ -1,0 +1,52 @@
+<div class="profile-header">
+    <div class="profile-avatar-lg">
+        <span><%= user.username.charAt(0).toUpperCase() %></span>
+    </div>
+    <div class="profile-info">
+        <h1><%= user.fullName || user.username %></h1>
+        <p class="profile-username">@<%= user.username %></p>
+        <% if (user.bio) { %><p class="profile-bio"><%= user.bio %></p><% } %>
+        <div class="profile-stats">
+            <div class="stat">
+                <span class="stat-value"><%= episodes.length %></span>
+                <span class="stat-label">episódios</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value"><%= totalPlays %></span>
+                <span class="stat-label">reproduções</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-section">
+    <h2>Meus episódios</h2>
+
+    <% if (episodes.length > 0) { %>
+        <div class="profile-episodes">
+            <% episodes.forEach(ep => { %>
+                <div class="profile-episode-row">
+                    <div class="profile-episode-icon">🎙</div>
+                    <div class="profile-episode-info">
+                        <a href="/episodes/<%= ep.id %>" class="profile-episode-title"><%= ep.title %></a>
+                        <p class="profile-episode-meta">
+                            <% if (ep.category) { %><span class="badge"><%= ep.category %></span><% } %>
+                            <span><%= ep.plays || 0 %> reproduções</span>
+                            <span><%= new Date(ep.createdAt).toLocaleDateString('pt-BR') %></span>
+                        </p>
+                    </div>
+                    <form action="/episodes/<%= ep.id %>" method="POST" style="margin:0">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-delete" onclick="return confirm('Deletar este episódio?')">🗑</button>
+                    </form>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="empty-state">
+            <div class="icon">🎙</div>
+            <p>Você ainda não publicou nenhum episódio.</p>
+            <a href="/upload" class="btn btn-primary">Publicar agora</a>
+        </div>
+    <% } %>
+</div>

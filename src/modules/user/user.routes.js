@@ -3,30 +3,51 @@ const router = express.Router();
 
 import * as userController from './user.controller.js';
 import isAuthenticated from '../../middlewares/auth.js';
+import * as episodeService from '../episode/episode.service.js';
+import Episode from '../episode/episode.model.js';
 
-//GET /register -> mostra formulário
 router.get('/register', (req, res) => {
     res.render('register', { title: 'Criar Conta' });
 });
 
-//GET /login -> mostra formulário
 router.get('/login', (req, res) => {
     res.render('login', { title: 'Entrar' });
 });
 
-//POST /login -> processa login
 router.post('/login', userController.login);
+router.post('/register', userController.register);
 
-//GET /logout -> realiza logout
 router.get('/logout', isAuthenticated, userController.logout);
 
-// Rota protegida (exemplo) 
-router.get('/feed', isAuthenticated, (req, res) => {
-    res.render('feed', { title: 'Feed | PodWave', episodes: [], category: null });
+router.get('/feed', isAuthenticated, async (req, res) => {
+    try {
+        const { category } = req.query;
+        const episodes = await episodeService.listEpisodes(Episode, category || null);
+        res.render('feed', { title: 'Feed | PodWave', episodes, category: category || null });
+    } catch (error) {
+        req.flash('error', error.message);
+        res.render('feed', { title: 'Feed | PodWave', episodes: [], category: null });
+    }
 });
 
+router.get('/profile', isAuthenticated, async (req, res) => {
+    try {
+        const episodes = await Episode.findAll({
+            where: { userId: req.session.user.id },
+            order: [['created_at', 'DESC']]
+        });
 
-//POST /register -> processa cadastro
-router.post('/register', userController.register);
+        const totalPlays = episodes.reduce((sum, ep) => sum + (ep.plays || 0), 0);
+
+        res.render('profile', {
+            title: 'Meu Perfil | PodWave',
+            episodes,
+            totalPlays
+        });
+    } catch (error) {
+        req.flash('error', error.message);
+        res.redirect('/feed');
+    }
+});
 
 export default router;
