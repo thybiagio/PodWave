@@ -28,10 +28,10 @@ const upload = multer({ storage });
 router.get('/upload', isAuthenticated, episodeController.getUploadForm);
 
 //Processa o envio do episódio (somente usuários autenticados)
-router.post( 
+router.post(
     '/upload',
     isAuthenticated,
-    upload.single('audio'), 
+    upload.any(),
     episodeController.upload
 );
 

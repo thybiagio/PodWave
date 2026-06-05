@@ -2,6 +2,21 @@
     <h1>Novo episódio</h1>
     <p class="subtitle">Preencha os dados e envie seu áudio.</p>
 
+<script>
+document.querySelector('form').addEventListener('submit', () => {
+    const input = document.getElementById('audio-input');
+
+    console.log('FILES:', input.files);
+    console.log('QTD:', input.files.length);
+
+    if (input.files.length > 0) {
+        console.log('NOME:', input.files[0].name);
+        console.log('TIPO:', input.files[0].type);
+        console.log('TAMANHO:', input.files[0].size);
+    }
+});
+</script>
+    
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Título</label>
@@ -25,9 +40,9 @@
         </div>
         <div class="form-group">
             <label>Arquivo de áudio</label>
-            <label class="file-input-label" id="file-label">
+            <label class="file-input-label">
                 <input type="file" name="audio" accept="audio/*" required id="audio-input">
-                🎵 Clique para selecionar o arquivo
+                <span id="file-name">🎵 Clique para selecionar o arquivo</span>
             </label>
         </div>
         <button type="submit" class="form-submit">Publicar episódio</button>
@@ -35,10 +50,14 @@
 </div>
 
 <script>
-    document.getElementById('audio-input').addEventListener('change', function () {
-        const label = document.getElementById('file-label');
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('audio-input');
+    const fileName = document.getElementById('file-name');
+
+    input.addEventListener('change', function () {
         if (this.files.length > 0) {
-            label.textContent = '✅ ' + this.files[0].name;
+            fileName.textContent = '✅ ' + this.files[0].name;
         }
     });
+});
 </script>
