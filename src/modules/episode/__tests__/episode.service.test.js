@@ -26,7 +26,7 @@ describe('Episode Service', () => {
         //Diz ao mock para retornar o objeto criado
         mockEpisodeModel.create.mockResolvedValue(episodeCriado);
 
-        const result = await episodeService.publishEpisode(data, mockAudioFile, mockEpisodeModel, 1);
+        const result = await episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1);
 
         expect(result.message).toBe('Episódio publicado com sucesso!');
         expect(result.episode).toHaveProperty('id', 1);
@@ -36,7 +36,7 @@ describe('Episode Service', () => {
         const data = { title: '' };
 
         await expect( 
-            episodeService.publishEpisode(data, mockAudioFile, mockEpisodeModel, 1)
+            episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1)
         ).rejects.toThrow('Título é obrigatório');
     });
 
@@ -44,7 +44,7 @@ describe('Episode Service', () => {
         const data = { title: '  ' };
 
         await expect( 
-            episodeService.publishEpisode(data, mockAudioFile, mockEpisodeModel, 1)
+            episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1)
         ).rejects.toThrow('Título é obrigatório');
     });
 
@@ -52,7 +52,7 @@ describe('Episode Service', () => {
         const data = { title: 'a'.repeat(256) };
 
         await expect( 
-            episodeService.publishEpisode(data, mockAudioFile, mockEpisodeModel, 1)
+            episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1)
         ).rejects.toThrow('Título não pode ultrapassar 255 caracteres');
     });
 
@@ -61,7 +61,7 @@ describe('Episode Service', () => {
 
         //null simula caso onde usuário não anexou nenhum arquivo
         await expect(
-            episodeService.publishEpisode(data, null, mockEpisodeModel, 1)
+            episodeService.publishEpisode(data, null, null, mockEpisodeModel, 1)
         ).rejects.toThrow('Arquivo de áudio é obrigatório');
     });
 
@@ -70,7 +70,7 @@ describe('Episode Service', () => {
 
         //null simula o caso onde não há sessão ativa
         await expect( 
-            episodeService.publishEpisode(data, mockAudioFile, mockEpisodeModel, null)
+            episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, null)
         ).rejects.toThrow('Usuário não autenticado');
     });
 
@@ -81,7 +81,7 @@ describe('Episode Service', () => {
 
         mockEpisodeModel.create.mockResolvedValue(episodeCriado);
 
-        const result = await episodeService.publishEpisode(data, mockAudioFile, mockEpisodeModel, 1);
+        const result = await episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1);
 
         expect(result.episode).toHaveProperty('description', null);
     });

@@ -9,18 +9,13 @@ export const getUploadForm = (req, res) => {
 //Processa o upload de um novo episódio
 export const upload = async (req, res) => {
     try {
-        console.log('CONTENT-TYPE:', req.headers['content-type']);
-        console.log('BODY:', req.body);
-        console.log('FILES:', req.files);
-        console.log('FILE:', req.file);
+        const audioFile = req.files?.find(
+            file => file.fieldname === 'audio'
+        );
 
-    const audioFile = req.files?.find(
-        file => file.fieldname === 'audio'
-    );
-
-    const coverFile = req.files?.find(
-        file => file.fieldname === 'cover'
-    );
+        const coverFile = req.files?.find(
+            file => file.fieldname === 'cover'
+        );
 
     const result = await episodeService.publishEpisode(
         req.body,
