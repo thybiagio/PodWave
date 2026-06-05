@@ -117,3 +117,49 @@ chamado `mockEpisodeModel`. Ele tem os mesmos métodos do Sequelize (`create`,
 O motivo é simples: teste unitário testa **lógica**, não infraestrutura. Se o banco
 cair, o teste não deve falhar — porque o problema não está no código. Com mock,
 o teste é rápido, previsível e roda em qualquer máquina sem configuração de banco.
+
+---
+
+## 5. Cobertura de código
+
+O Vitest foi configurado com `@vitest/coverage-v8` para gerar relatório de cobertura
+via `npm run test:coverage`. A meta mínima de 80% de linhas foi definida no
+`vitest.config.js` com o campo `threshold`.
+
+Resultado obtido nos services testados:
+
+| Service | Stmts | Branch | Funcs | Lines |
+|---|---|---|---|---|
+| `episode.service.js` | 97% | 96% | 100% | 97% |
+| `user.service.js` | 100% | 100% | 100% | 100% |
+
+A cobertura guiou o desenvolvimento: linhas não cobertas sinalizaram cenários
+esquecidos, como validação de `userId` nulo no `publishEpisode` e login com
+`loginInput` vazio no `user.service`.
+
+---
+
+## 6. Testes do módulo de usuário
+
+Além dos testes do `episode.service`, foram implementados 17 testes unitários
+cobrindo o `user.service` — registro, login e busca de perfil.
+
+### Teste — Login com senha incorreta
+
+```js
+it('deve lançar erro se a senha estiver incorreta', async () => {
+    const mockUser = {
+        id: 1, username: 'paulo',
+        password: '$2b$10$hash'
+    };
+    mockUserModel.findOne.mockResolvedValue(mockUser);
+    vi.spyOn(bcrypt, 'compare').mockResolvedValueOnce(false);
+
+    await expect(userService.login('paulo', 'senhaerrada', mockUserModel))
+        .rejects.toThrow('Email/Usuário ou senha incorreta');
+});
+```
+
+O `vi.spyOn` intercepta o `bcrypt.compare` e força o retorno `false`, simulando
+uma senha errada sem precisar de hash real. Isso isola a lógica do service do
+comportamento da biblioteca externa.
