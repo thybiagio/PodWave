@@ -30,6 +30,6 @@ router.get('/episodes/:id', episodeController.show);
 router.post('/episodes/:id/play', episodeController.play);
 
 //Delete um episódio (somente usuários autenticados)
-router.delete('/episodes/:id', isAuthenticated, episodeController.delete);
+router.delete('/episodes/:id', isAuthenticated, episodeController.remove);
 
 export default router;

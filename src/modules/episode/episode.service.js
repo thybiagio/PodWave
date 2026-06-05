@@ -83,7 +83,7 @@ export const registerPlay = async (id, EpisodeModel) => {
 };
 
 //----Deletar episódio----
-export const deleteEpisode = async (id, EpisodeModel, userId, isAdmin) => {
+export const deleteEpisode = async (id, userId, isAdmin, EpisodeModel) => {
     const episode = await EpisodeModel.findByPk(id);
 
     if (!episode) {
