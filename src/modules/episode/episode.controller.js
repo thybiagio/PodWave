@@ -33,9 +33,9 @@ export const list = async (req, res) => {
         const { category } = req.query;
         const episodes = await episodeService.listEpisodes(Episode, category || null);
         
-        res.render('feed', { title: 'Episódios | PodWave', episodes });
+        res.render('feed', { title: 'Episódios | PodWave', episodes, category: category || null });
     } catch (error) {
-        req.flash('error', erro.message);
+        req.flash('error', error.message);
         res.redirect('/');
     }
 };

@@ -1,0 +1,22 @@
+<div class="episode-page">
+    <h1><%= episode.title %></h1>
+    <p class="meta">
+        <%= episode.plays || 0 %> reproduções
+        <% if (episode.category) { %>
+            · <span class="badge"><%= episode.category %></span>
+        <% } %>
+    </p>
+
+    <audio class="audio-player" controls>
+        <source src="/uploads/<%= episode.audioPath %>" type="audio/mpeg">
+        Seu navegador não suporta o player de áudio.
+    </audio>
+
+    <% if (episode.description) { %>
+        <p class="episode-description"><%= episode.description %></p>
+    <% } %>
+
+    <div style="margin-top: 32px;">
+        <a href="/episodes" class="btn btn-ghost">← Voltar</a>
+    </div>
+</div>

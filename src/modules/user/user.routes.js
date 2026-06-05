@@ -22,7 +22,7 @@ router.get('/logout', isAuthenticated, userController.logout);
 
 // Rota protegida (exemplo) 
 router.get('/feed', isAuthenticated, (req, res) => {
-    res.render('feed', { title: 'Feed | PodWave' });
+    res.render('feed', { title: 'Feed | PodWave', episodes: [], category: null });
 });
 
 

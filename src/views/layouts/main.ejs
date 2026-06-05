@@ -1,12 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> 
-    <head> 
-        <meta charset="UTF-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><%= title || 'PodWave' %></title>
-        <link rel="stylesheet" href="/stylesheets/style.css">
-    </head>
-    <body> 
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'PodWave' %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="/" class="nav-brand">🎙 PodWave</a>
+            <div class="nav-links">
+                <% if (user) { %>
+                    <a href="/episodes" class="btn btn-ghost">Explorar</a>
+                    <a href="/upload" class="btn btn-ghost">Publicar</a>
+                    <a href="/logout" class="btn btn-ghost">Sair</a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-ghost">Entrar</a>
+                    <a href="/register" class="btn btn-primary">Criar conta</a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <% if (messages.error && messages.error.length > 0) { %>
+            <div class="flash flash-error"><%= messages.error[0] %></div>
+        <% } %>
+        <% if (messages.success && messages.success.length > 0) { %>
+            <div class="flash flash-success"><%= messages.success[0] %></div>
+        <% } %>
+
         <%- body %>
-    </body>
+
+    </main>
+
+</body>
 </html>

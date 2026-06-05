@@ -1,0 +1,39 @@
+<div class="feed-header">
+    <h1>Episódios</h1>
+    <a href="/upload" class="btn btn-primary">+ Publicar</a>
+</div>
+
+<div class="feed-filters">
+    <a href="/episodes" class="filter-btn <%= !category ? 'active' : '' %>">Todos</a>
+    <a href="/episodes?category=Tecnologia" class="filter-btn <%= category === 'Tecnologia' ? 'active' : '' %>">Tecnologia</a>
+    <a href="/episodes?category=Negócios" class="filter-btn <%= category === 'Negócios' ? 'active' : '' %>">Negócios</a>
+    <a href="/episodes?category=Educação" class="filter-btn <%= category === 'Educação' ? 'active' : '' %>">Educação</a>
+    <a href="/episodes?category=Entretenimento" class="filter-btn <%= category === 'Entretenimento' ? 'active' : '' %>">Entretenimento</a>
+    <a href="/episodes?category=Saúde" class="filter-btn <%= category === 'Saúde' ? 'active' : '' %>">Saúde</a>
+    <a href="/episodes?category=Outros" class="filter-btn <%= category === 'Outros' ? 'active' : '' %>">Outros</a>
+</div>
+
+<% if (typeof episodes !== 'undefined' && episodes.length > 0) { %>
+    <div class="episodes-grid">
+        <% episodes.forEach(ep => { %>
+            <a href="/episodes/<%= ep.id %>" style="text-decoration: none; color: inherit;">
+                <div class="episode-card">
+                    <div class="episode-card-cover">🎙</div>
+                    <div class="episode-card-body">
+                        <h3><%= ep.title %></h3>
+                        <p class="meta"><%= ep.plays || 0 %> reproduções</p>
+                        <% if (ep.category) { %>
+                            <span class="badge"><%= ep.category %></span>
+                        <% } %>
+                    </div>
+                </div>
+            </a>
+        <% }) %>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <div class="icon">🎙</div>
+        <p>Nenhum episódio encontrado.</p>
+        <a href="/upload" class="btn btn-primary">Publicar o primeiro</a>
+    </div>
+<% } %>
