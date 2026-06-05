@@ -1,22 +1,41 @@
-<div class="episode-page">
-    <h1><%= episode.title %></h1>
-    <p class="meta">
-        <%= episode.plays || 0 %> reproduções
-        <% if (episode.category) { %>
-            · <span class="badge"><%= episode.category %></span>
-        <% } %>
-    </p>
+<div class="episode-container">
 
-    <audio class="audio-player" controls>
-        <source src="/uploads/audios/<%= episode.audioPath %>" type="audio/mpeg">
-        Seu navegador não suporta o player de áudio.
-    </audio>
+    <div class="episode-hero">
+        <div class="episode-cover">
+            🎙️
+        </div>
 
-    <% if (episode.description) { %>
-        <p class="episode-description"><%= episode.description %></p>
-    <% } %>
+        <div class="episode-info">
+            <span class="badge">
+                <%= episode.category || 'Podcast' %>
+            </span>
 
-    <div style="margin-top: 32px;">
-        <a href="/episodes" class="btn btn-ghost">← Voltar</a>
+            <h1><%= episode.title %></h1>
+
+            <p class="episode-meta">
+                ▶ <%= episode.plays || 0 %> reproduções
+            </p>
+
+            <% if (episode.description) { %>
+                <p class="episode-description">
+                    <%= episode.description %>
+                </p>
+            <% } %>
+        </div>
     </div>
+
+    <div class="player-card">
+        
+        <audio controls>
+            <source src="/uploads/audios/<%= episode.audioPath %>" type="audio/mpeg">
+            Seu navegador não suporta áudio.
+        </audio>
+    </div>
+
+    <div class="actions">
+        <a href="/episodes" class="btn-back">
+            ← Voltar
+        </a>
+    </div>
+
 </div>
