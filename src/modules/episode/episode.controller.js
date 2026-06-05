@@ -9,7 +9,6 @@ export const getUploadForm = (req, res) => {
 //Processa o upload de um novo episódio
 export const upload = async (req, res) => {
     try {
-        console.log('req.files:', req.files); 
         const audioFile = req.file ?? null;
 
         const result = await episodeService.publishEpisode(
