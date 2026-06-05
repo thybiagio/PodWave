@@ -2,8 +2,22 @@
 
     <div class="episode-hero">
         <div class="episode-cover">
+
+    <% if (episode.coverPath && episode.coverPath !== 'default-cover.png') { %>
+
+        <img
+            src="/uploads/covers/<%= episode.coverPath %>"
+            alt="<%= episode.title %>">
+
+    <% } else { %>
+
+        <div class="default-cover">
             🎙️
         </div>
+
+    <% } %>
+
+</div>
 
         <div class="episode-info">
             <span class="badge">
@@ -30,6 +44,35 @@
             <source src="/uploads/audios/<%= episode.audioPath %>" type="audio/mpeg">
             Seu navegador não suporta áudio.
         </audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const audio = document.querySelector('audio');
+
+    let counted = false;
+
+    audio.addEventListener('play', async () => {
+
+        if (counted) return;
+
+        counted = true;
+
+        try {
+
+            await fetch('/episodes/<%= episode.id %>/play', {
+                method: 'POST'
+            });
+
+        } catch (err) {
+            console.error(err);
+        }
+
+    });
+
+});
+</script>
+
     </div>
 
     <div class="actions">
