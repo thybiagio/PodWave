@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for video/video.service.js</title>
+    <title>Code coverage report for episode/episode.routes.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">video</a> video.service.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">episode</a> episode.routes.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,18 +86,33 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -105,41 +120,59 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const uploadVideo = async (data, files, VideoModel, userId) =&gt; { 
-    const { title, description } = data;
-    const videoFile = files.video?.[0];
-    const thumbnailFile = files.thumbnail?.[0];
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
+const router = express.Router();
 &nbsp;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if(!title) throw new Error('OTítulo é obrigatório.');
-<span class="cstat-no" title="statement not covered" >    if(!videoFile) <span class="cstat-no" title="statement not covered" >throw new Error('O arquivo de vídeo é obrigatório.');</span></span>
-<span class="cstat-no" title="statement not covered" >    if(!thumbnailFile) <span class="cstat-no" title="statement not covered" >throw new Error('A thumbnail é obrigatória.');</span></span>
+import * as episodeController from './episode.controller.js';
+import isAuthenticated from '../../middlewares/auth.js';
+import multer from 'multer';
 &nbsp;
-    //Validação de duração máxima (1 minuto) seria implementada aqui, usando uma biblioteca como ffmpeg para analisar o vídeo.
+//Configuração do multer - armazena o áudio em memória temporariamente
+//Em produção seria trocado por armazenamento em diso ou nuvem
+const upload = multer({ storage: multer.memoryStorage() });
 &nbsp;
-    const newVideo = <span class="cstat-no" title="statement not covered" >await VideoModel.create({ </span>
-        title, 
-        description: description || null,
-        videoPath: videoFile.filename,
-        thumbnailPath: thumbnailFile.filename,
-        userId
-    });
+//Exibe formulário (somente usuários autenticados)
+router.get('/upload', isAuthenticated, episodeController.getUploadForm);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return{ </span>
-        message: 'Video publicado com sucesso!',
-        video: newVideo
-    };
-};</pre></td></tr></table></pre>
+//Processa o envio do episódio (somente usuários autenticados)
+router.post( 
+    '/upload',
+    isAuthenticated,
+    upload.fields([{ name: 'audio', maxCount: 1 }]), //espera um campo "audio" com no máximo 1 arquivo
+    episodeController.upload
+);
+&nbsp;
+//Lista todos os episódios
+router.get('/episodes', episodeController.list);
+&nbsp;
+//Exibe um episódio específico
+router.get('/episodes/:id', episodeController.show);
+&nbsp;
+//Registra uma reprodução
+router.post('/episodes/:id/play', episodeController.play);
+&nbsp;
+//Delete um episódio (somente usuários autenticados)
+router.delete('/episodes/:id', isAuthenticated, episodeController.remove);
+&nbsp;
+export default router;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-04T21:37:10.679Z
+                at 2026-06-05T01:45:53.168Z
             </div>
         <script src="../prettify.js"></script>
         <script>
