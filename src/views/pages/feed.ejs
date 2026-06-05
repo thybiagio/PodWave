@@ -1,6 +1,9 @@
 <div class="feed-header">
     <h1>Episódios</h1>
-    <a href="/upload" class="btn btn-primary">+ Publicar</a>
+   <a href="/upload" class="publish-pill">
+    <span>+</span>
+    Novo episódio
+</a>
 </div>
 
 <div class="feed-filters">
@@ -18,7 +21,23 @@
         <% episodes.forEach(ep => { %>
             <a href="/episodes/<%= ep.id %>" style="text-decoration: none; color: inherit;">
                 <div class="episode-card">
-                    <div class="episode-card-cover">🎙</div>
+                    <div class="episode-card-cover">
+
+    <% if (ep.coverPath && ep.coverPath !== 'default-cover.png') { %>
+
+        <img
+            src="/uploads/covers/<%= ep.coverPath %>"
+            alt="<%= ep.title %>">
+
+    <% } else { %>
+
+        <div class="default-cover">
+            🎙
+        </div>
+
+    <% } %>
+
+</div>
                     <div class="episode-card-body">
                         <h3><%= ep.title %></h3>
                         <p class="meta"><%= ep.plays || 0 %> reproduções</p>

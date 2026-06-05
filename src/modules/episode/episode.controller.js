@@ -14,14 +14,21 @@ export const upload = async (req, res) => {
         console.log('FILES:', req.files);
         console.log('FILE:', req.file);
 
-        const audioFile = req.files?.[0] ?? null;
+    const audioFile = req.files?.find(
+        file => file.fieldname === 'audio'
+    );
 
-        const result = await episodeService.publishEpisode(
-            req.body,
-            audioFile,
-            Episode,
-            req.session.user.id
-        );
+    const coverFile = req.files?.find(
+        file => file.fieldname === 'cover'
+    );
+
+    const result = await episodeService.publishEpisode(
+        req.body,
+        audioFile,
+        coverFile,
+        Episode,
+        req.session.user.id
+    );
 
         req.flash('success', result.message);
         res.redirect('/feed');

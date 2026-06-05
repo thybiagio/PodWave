@@ -3,7 +3,7 @@ import Episode from './episode.model.js';
 // ----Publicar episódio----
 
 //Recebe os dados do formulário, o arquivo de áudio, o model e o id do usuário
-export const publishEpisode = async (data, audioFile, EpisodeModel, userId) =>{ 
+export const publishEpisode = async (data,audioFile,coverFile,EpisodeModel, userId) => { 
     const { title, description, category } = data;
 
     // título obrigatório
@@ -28,12 +28,13 @@ export const publishEpisode = async (data, audioFile, EpisodeModel, userId) =>{
 
     //Cria um novo episódio no banco de dados, após validação
     const newEpisode = await EpisodeModel.create({
-        title: title.trim(),
-        description: description || null,
-        audioPath: audioFile.filename,
-        category: category || null,
-        userId
-    });
+    title: title.trim(),
+    description: description || null,
+    audioPath: audioFile.filename,
+    coverPath: coverFile ? coverFile.filename : null,
+    category: category || null,
+    userId
+});
 
     return{ 
         message: 'Episódio publicado com sucesso!',

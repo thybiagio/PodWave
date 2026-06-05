@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(process.cwd(), 'src/public')));
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use(session({
     secret: process.env.SESSION_SECRET,

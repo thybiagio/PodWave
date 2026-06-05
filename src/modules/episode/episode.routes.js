@@ -10,15 +10,48 @@ import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const uploadDir = path.resolve(__dirname, '../../public/uploads/audios');
+const audioDir = path.resolve(
+    __dirname,
+    '../../public/uploads/audios'
+);
 
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+const coverDir = path.resolve(
+    __dirname,
+    '../../public/uploads/covers'
+);
+
+if (!fs.existsSync(audioDir))
+    fs.mkdirSync(audioDir, { recursive: true });
+
+if (!fs.existsSync(coverDir))
+    fs.mkdirSync(coverDir, { recursive: true });
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, uploadDir),
+
+    destination: (req, file, cb) => {
+
+        if (file.fieldname === 'audio') {
+            return cb(null, audioDir);
+        }
+
+        if (file.fieldname === 'cover') {
+            return cb(null, coverDir);
+        }
+
+        cb(new Error('Campo inválido'));
+    },
+
     filename: (req, file, cb) => {
-        const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, unique + path.extname(file.originalname));
+
+        const unique =
+            Date.now() +
+            '-' +
+            Math.round(Math.random() * 1e9);
+
+        cb(
+            null,
+            unique + path.extname(file.originalname)
+        );
     }
 });
 
