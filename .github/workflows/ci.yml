@@ -1,0 +1,75 @@
+name: PodWave CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: biagio10
+          MYSQL_DATABASE: podwave_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Aguardar MySQL ficar pronto
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" --silent; do
+            sleep 1
+          done
+        env:
+          MYSQL_PWD: biagio10
+
+      - name: Executar testes com cobertura
+        run: npm run test:coverage
+        env:
+          PORT: 3000
+          DB_NAME: podwave_db
+          DB_USER: root
+          DB_PASSWORD: biagio10
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          SESSION_SECRET: shortz-secret-2026
+
+      - name: Fazer upload do relatório de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-node-${{ matrix.node-version }}
+          path: coverage/
+
+      - name: Comentar cobertura no Pull Request
+        uses: frequency-chain/actions-vitest-coverage-report-action@v1
+        if: github.event_name == 'pull_request'
+        with:
+          path: coverage/coverage-final.json
+          badge: true
+          json-summary: true
