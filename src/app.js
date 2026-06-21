@@ -8,6 +8,7 @@ import expressLayouts from 'express-ejs-layouts';
 import dotenv from 'dotenv';
 import userRoutes from './modules/user/user.routes.js';
 import episodeRoutes from './modules/episode/episode.routes.js';
+import podcastRoutes from './modules/podcast/podcast.routes.js';
 dotenv.config();
 
 const app = express();
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => res.render('index', { title: 'PodWave' }));
 app.use('/', userRoutes);
 app.use('/', episodeRoutes);
+app.use('/', podcastRoutes);
 
 app.use((req, res) => res.status(404).render('404', { title: 'Página não encontrada' }));
 
