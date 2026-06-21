@@ -126,4 +126,35 @@ describe('Podcast Service', () => {
         expect(podcastExistente.update).toHaveBeenCalledWith({ title: 'Tech Talks Atualizado' });
         expect(result.message).toBe('Podcast atualizado com sucesso!');
     });
+
+    //----Deletar Podcast----
+
+    it('deve lançar erro ao deletar se o podcast não existir', async () => { 
+        mockPodcastModel.findByPk.mockResolvedValue(null);
+
+        await expect( 
+            podcastService.deletePodcast(999, mockPodcastModel, 1, false)
+        ).rejects.toThrow('Podcast não encontrado');
+    });
+
+    it('deve permitir que o dono delete o próprio podcast', async () => { 
+        const podcastExistente = { id: 1, userId: 1, destroy: vi.fn().mockResolvedValue(true) };
+        mockPodcastModel.findByPk.mockResolvedValue(podcastExistente);
+
+        const result = await podcastService.deletePodcast(1, mockPodcastModel, 2, true);
+
+        expect(podcastExistente.destroy).toHaveBeenCalled();
+        expect(result.message).toBe('Podcast deletado com sucesso!');
+    });
+
+    it('deve impedir que um usuário comum delete podcast de outro usuário', async() => { 
+        const podcastExistente = { id: 1, userId: 1, destroy: vi.fn() };
+        mockPodcastModel.findByPk.mockResolvedValue(podcastExistente);
+
+        await expect( 
+            podcastService.deletePodcast(1, mockPodcastModel, 2, false)
+        ).rejects.toThrow('Você não tem permissão para deletar este podcast');
+        
+        expect(podcastExistente.destroy).not.toHaveBeenCalled();
+    });
 });

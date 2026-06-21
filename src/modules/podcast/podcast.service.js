@@ -68,3 +68,21 @@ export const updatePodcast = async (id, data, PodcastModel, userId) => {
 
 };
 
+export const deletePodcast = async (id, PodcastModel, userId, isAdmin = false) => { 
+    const podcast = await PodcastModel.findByPk(id);
+
+    if (!podcast) { 
+        throw new Error('Podcast não encontrado');
+    }
+
+    if (podcast.userId !== userId && !isAdmin) { 
+        throw new Error('Você não tem permissão para deletar este podcast');
+    }
+
+    await podcast.destroy();
+
+    return{ 
+        message: 'Podcast deletado com sucesso!'
+    };
+};
+
