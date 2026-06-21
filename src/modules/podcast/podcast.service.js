@@ -26,12 +26,14 @@ export const createPodcast = async (data, PodcastModel, userId) => {
     };
 };
 
-export const listPodcasts = async (PodcastModel, category = null) => { 
-    const where = category ? { category } : {};
+export const listPodcasts = async (PodcastModel, category = null, userId = null) => { 
+    const where = {};
+
+    if (category) where.category = category;
+    if (userId) where.userId = userId;
 
     const podcasts = await PodcastModel.findAll({ where })
     return podcasts;
-
 };
 
 export const getPodcastById = async (id, PodcastModel) => { 
