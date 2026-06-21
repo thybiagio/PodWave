@@ -46,10 +46,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-//Exibe formulário de criação (somente usuários autenticados)
+//Exibe formulário de criação 
 router.get('/podcasts/new', isAuthenticated, podcastController.getCreateForm);
 
-//Processa a criação do podcast (somente usuários autenticados)
+//Processa a criação do podcast 
 router.post(
     '/podcasts',
     isAuthenticated,
@@ -60,6 +60,9 @@ router.post(
 //Lista todos os podcasts
 router.get('/podcasts', podcastController.list);
 
+//Lista os podcasts do usuário logado (somente usuários autenticados)
+router.get('/podcasts/mine', isAuthenticated, podcastController.mine);
+
 //Exibe formulário de edição 
 router.get('/podcasts/:id/edit', isAuthenticated, podcastController.getEditForm);
 
@@ -69,7 +72,7 @@ router.post('/podcasts/:id/edit', isAuthenticated, podcastController.update);
 //Deleta um podcast 
 router.post('/podcasts/:id/delete', isAuthenticated, podcastController.remove);
 
-//Exibe um podcast específico 
+//Exibe um podcast específico (deve vir por último, senão captura "/podcasts/mine", "/podcasts/new" etc. como :id)
 router.get('/podcasts/:id', podcastController.show);
 
 export default router;

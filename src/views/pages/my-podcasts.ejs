@@ -1,0 +1,47 @@
+<div class="feed-header">
+    <h1>Meus Podcasts</h1>
+   <a href="/podcasts/new" class="publish-pill">
+    <span>+</span>
+    Novo podcast
+</a>
+</div>
+
+<% if (typeof podcasts !== 'undefined' && podcasts.length > 0) { %>
+    <div class="episodes-grid">
+        <% podcasts.forEach(pc => { %>
+            <a href="/podcasts/<%= pc.id %>" style="text-decoration: none; color: inherit;">
+                <div class="episode-card">
+                    <div class="episode-card-cover">
+
+    <% if (pc.coverPath && pc.coverPath !== 'default-cover.png') { %>
+
+        <img
+            src="/uploads/covers/<%= pc.coverPath %>"
+            alt="<%= pc.title %>">
+
+    <% } else { %>
+
+        <div class="default-cover">
+            🎙
+        </div>
+
+    <% } %>
+
+</div>
+                    <div class="episode-card-body">
+                        <h3><%= pc.title %></h3>
+                        <% if (pc.category) { %>
+                            <span class="badge"><%= pc.category %></span>
+                        <% } %>
+                    </div>
+                </div>
+            </a>
+        <% }) %>
+    </div>
+<% } else { %>
+    <div class="empty-state">
+        <div class="icon">🎙</div>
+        <p>Você ainda não criou nenhum podcast.</p>
+        <a href="/podcasts/new" class="btn btn-primary">Criar o primeiro</a>
+    </div>
+<% } %>

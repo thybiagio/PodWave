@@ -118,6 +118,16 @@ describe('Episode Service', () => {
         expect(mockEpisodeModel.findAll).toHaveBeenCalledWith({ where: { category: 'Tecnologia' } }); 
     });
 
+    it('deve listar episódios filtrados por podcastId', async () => { 
+        const lista = [{ id: 1, podcastId: 5 }];
+        mockEpisodeModel.findAll.mockResolvedValue(lista);
+
+        const result = await episodeService.listEpisodes(mockEpisodeModel, null, 5);
+
+        expect(result).toHaveLength(1);
+        expect(mockEpisodeModel.findAll).toHaveBeenCalledWith({ where: { podcastId: 5 } });
+    });
+
     //----GetEpisodeById----
 
     it('deve retornar um episódio pelo ID', async () => { 

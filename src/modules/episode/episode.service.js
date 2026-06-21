@@ -50,9 +50,11 @@ export const publishEpisode = async (data,audioFile,coverFile,EpisodeModel, user
 // ----Listar episódios----
 
 //Retorna todos os episódios, com opção de filtrar por categoria
-export const listEpisodes = async (EpisodeModel, category = null) => { 
-    //Se uma categoria for fornecida, filtra os episódios por categoria - senão retorna todos
-    const  where = category ? { category } : {};
+export const listEpisodes = async (EpisodeModel, category = null, podcastId = null) => {
+    const where = {};
+
+    if (category) where.category = category;
+    if (podcastId) where.podcastId = podcastId;
 
     const episodes = await EpisodeModel.findAll({ where });
     return episodes;

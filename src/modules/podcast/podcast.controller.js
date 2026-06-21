@@ -1,5 +1,7 @@
 import * as podcastService from './podcast.service.js';
 import Podcast from './podcast.model.js';
+import * as episodeService from '../episode/episode.service.js';
+import Episode from '../episode/episode.model.js';
 
 //Exibe formulário criação do podcast
 export const getCreateForm = (req, res) => { 
@@ -28,7 +30,7 @@ export const create = async (req, res) => {
         res.redirect('/podcasts');
     } catch (error) { 
         req.flash('error', error.message);
-        res.reirect('/podcasts/new');
+        res.redirect('/podcasts/new');
     }
 };
 
@@ -61,7 +63,8 @@ export const mine = async (req, res) => {
 export const show = async (req, res) => { 
     try{ 
         const podcast = await podcastService.getPodcastById(req.params.id, Podcast);
-        res.render('podcast', { title: podcast.title, podcast });
+        const episodes = await episodeService.listEpisodes(Episode, null, podcast.id);
+        res.render('podcast', { title: podcast.title, podcast, episodes });
     } catch (error) { 
         req.flash('error', error.message);
         res.redirect('/podcasts');
@@ -109,7 +112,7 @@ export const remove = async (req, res) => {
             isAdmin
         );
 
-        req.flas('success', 'Podcast deletado com sucesso');
+        req.flash('success', 'Podcast deletado com sucesso');
         res.redirect('/podcasts');
     } catch (error) { 
         req.flash('error', error.message);
