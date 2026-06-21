@@ -35,6 +35,12 @@
                     <%= episode.description %>
                 </p>
             <% } %>
+
+            <% if (typeof podcast !== 'undefined' && podcast) { %>
+                <a href="/podcasts/<%= podcast.id %>" class="podcast-link">
+                    🎙 Ver podcast completo: <strong><%= podcast.title %></strong>
+                </a>
+            <% } %>
         </div>
     </div>
 

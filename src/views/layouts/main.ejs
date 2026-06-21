@@ -17,7 +17,8 @@
             <div class="nav-links">
                 <% if (user) { %>
                     <a href="/episodes" class="nav-link">Explorar</a>
-                    <a href="/upload" class="nav-publish-icon">+</a>
+                    <a href="/podcasts" class="nav-link">Podcasts</a>
+                    <a href="/podcasts/mine" class="nav-publish-icon">+</a>
                     <a href="/profile" class="nav-avatar-btn">
                         <div class="nav-avatar">
                             <span><%= user.username.charAt(0).toUpperCase() %></span>
@@ -27,6 +28,7 @@
                     <a href="/logout" class="btn btn-ghost btn-sm">Sair</a>
                 <% } else { %>
                     <a href="/episodes" class="nav-link">Explorar</a>
+                    <a href="/podcasts" class="nav-link">Podcasts</a>
                     <a href="/login" class="btn btn-ghost btn-sm">Entrar</a>
                     <a href="/register" class="btn btn-primary btn-sm">Criar conta</a>
                 <% } %>

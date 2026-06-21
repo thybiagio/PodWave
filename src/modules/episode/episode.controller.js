@@ -60,10 +60,12 @@ export const list = async (req, res) => {
 };
 
 //Exibe a página de um episódio específico
+//Exibe a página de um episódio específico
 export const show = async (req, res) => {
     try{ 
         const episode = await episodeService.getEpisodeById(req.params.id, Episode);
-        res.render('episode', { title: episode.title, episode });
+        const podcast = await podcastService.getPodcastById(episode.podcastId, Podcast);
+        res.render('episode', { title: episode.title, episode, podcast });
     } catch (error) {
         req.flash('error', error.message);
         res.redirect('/episodes');
