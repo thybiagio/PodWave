@@ -4,7 +4,7 @@ import Episode from './episode.model.js';
 
 //Recebe os dados do formulário, o arquivo de áudio, o model e o id do usuário
 export const publishEpisode = async (data,audioFile,coverFile,EpisodeModel, userId) => { 
-    const { title, description, category } = data;
+    const { title, description, category, podcastId } = data;
 
     // título obrigatório
     if (!title || title.trim() === '') {
@@ -26,6 +26,10 @@ export const publishEpisode = async (data,audioFile,coverFile,EpisodeModel, user
         throw new Error('Usuário não autenticado');
     }
 
+    if (!podcastId){ 
+        throw new Error('Episódio precisa estar vinculado a um podcast')
+    }
+
     //Cria um novo episódio no banco de dados, após validação
     const newEpisode = await EpisodeModel.create({
     title: title.trim(),
@@ -33,7 +37,8 @@ export const publishEpisode = async (data,audioFile,coverFile,EpisodeModel, user
     audioPath: audioFile.filename,
     coverPath: coverFile ? coverFile.filename : null,
     category: category || null,
-    userId
+    userId,
+    podcastId
 });
 
     return{ 

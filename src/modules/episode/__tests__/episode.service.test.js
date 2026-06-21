@@ -20,8 +20,8 @@ describe('Episode Service', () => {
 
     //----Publicar Episódio----
     it('deve publicar um episódio com sucesso', async () => { 
-        const data = { title: 'Meu Podcast', description: 'Descrição', category: 'Tecnologia' };
-        const episodeCriado = { id: 1, title: 'Meu Podcast', userId: 1 };
+        const data = { title: 'Meu Podcast', description: 'Descrição', category: 'Tecnologia', podcastId: 1 };
+        const episodeCriado = { id: 1, title: 'Meu Podcast', userId: 1, podcastId: 1 };
 
         //Diz ao mock para retornar o objeto criado
         mockEpisodeModel.create.mockResolvedValue(episodeCriado);
@@ -56,6 +56,14 @@ describe('Episode Service', () => {
         ).rejects.toThrow('Título não pode ultrapassar 255 caracteres');
     });
 
+    it('deve lançar erro se podcastId não for informado', async () => { 
+        const data = { title: 'Episódio sem podcst' };
+
+        await expect( 
+            episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1)
+        ).rejects.toThrow('Episódio precisa estar vinculado a um podcast');
+    });
+
     it('deve lançar erro se o arquivo de áudio não for enviado', async() => { 
         const data = { title: 'Podcast sem áudio' };
 
@@ -76,8 +84,8 @@ describe('Episode Service', () => {
 
     it('deve publicar episódio sem descrição nem categoria (campos opcionais)', async () => { 
         //Testa que campos opcionais não quebram o fluxo
-        const data = { title: 'Episódio Simples' };
-        const episodeCriado = { id: 2, title: 'Episódio Simples', description: null, userId: 1};
+        const data = { title: 'Episódio Simples', podcastId: 1 };
+        const episodeCriado = { id: 2, title: 'Episódio Simples', description: null, userId: 1, podcastId: 1};
 
         mockEpisodeModel.create.mockResolvedValue(episodeCriado);
 

@@ -44,6 +44,10 @@ const Episode = sequelize.define('Episode', {
     userId: { 
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    podcastId: { 
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, { 
     tableName: 'episodes',
