@@ -1,12 +1,20 @@
 import * as episodeService from './episode.service.js';
 import Episode from './episode.model.js';
+import * as podcastService from '../podcast/podcast.service.js';
+import Podcast from '../podcast/podcast.model.js';
 
-//Exibe o formulário de upload de episódio
-export const getUploadForm = (req, res) => {
-    res.render('upload', { title: 'Novo Episódio' });
+//Exibe o formulário de upload de episódio, dentro de um podcast específico
+export const getUploadForm = async (req, res) => {
+    try {
+        const podcast = await podcastService.getPodcastById(req.params.podcastId, Podcast);
+        res.render('upload', { title: 'Novo Episódio', podcast });
+    } catch (error) {
+        req.flash('error', error.message);
+        res.redirect('/podcasts');
+    }
 };
 
-//Processa o upload de um novo episódio
+//Processa o upload de um novo episódio, vinculado ao podcast da URL
 export const upload = async (req, res) => {
     try {
         const audioFile = req.files?.find(
@@ -17,19 +25,24 @@ export const upload = async (req, res) => {
             file => file.fieldname === 'cover'
         );
 
-    const result = await episodeService.publishEpisode(
-        req.body,
-        audioFile,
-        coverFile,
-        Episode,
-        req.session.user.id
-    );
+        const data = {
+            ...req.body,
+            podcastId: req.params.podcastId
+        };
+
+        const result = await episodeService.publishEpisode(
+            data,
+            audioFile,
+            coverFile,
+            Episode,
+            req.session.user.id
+        );
 
         req.flash('success', result.message);
-        res.redirect('/feed');
+        res.redirect(`/podcasts/${req.params.podcastId}`);
     } catch (error) {
         req.flash('error', error.message);
-        res.redirect('/upload');
+        res.redirect(`/podcasts/${req.params.podcastId}/upload`);
     }
 };
 
@@ -70,7 +83,6 @@ export const play = async (req, res) => {
 //Deleta um episódio 
 export const remove = async (req, res) => { 
     try{ 
-        //Verifica se o usuário logado é administrador
         const isAdmin = req.session.user.role === 'admin';
 
         await episodeService.deleteEpisode( 

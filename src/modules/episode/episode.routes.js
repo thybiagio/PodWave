@@ -57,12 +57,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-//Exibe formulário (somente usuários autenticados)
-router.get('/upload', isAuthenticated, episodeController.getUploadForm);
+//Exibe formulário de novo episódio dentro de um podcast (somente usuários autenticados)
+router.get('/podcasts/:podcastId/upload', isAuthenticated, episodeController.getUploadForm);
 
-//Processa o envio do episódio (somente usuários autenticados)
+//Processa o envio do episódio dentro de um podcast (somente usuários autenticados)
 router.post(
-    '/upload',
+    '/podcasts/:podcastId/upload',
     isAuthenticated,
     upload.any(),
     episodeController.upload
