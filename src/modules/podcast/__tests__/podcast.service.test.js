@@ -70,4 +70,31 @@ describe('Podcast Service', () => {
         expect(result).toHaveLength(1);
         expect(mockPodcastModel.findAll).toHaveBeenCalledWith({ where: { category: 'Tecnologia' }});
     });
+
+    //----Buscar Podcast por ID----
+
+    it('deve retornar um podcast pelo ID', async () => { 
+        const podcastEncontrado = { id: 1, title: 'Tech Talks' };
+        mockPodcastModel.findByPk.mockResolvedValue(podcastEncontrado);
+
+        const result = await podcastService.getPodcastById(1, mockPodcastModel);
+
+        expect(result).toHaveProperty('id', 1);
+        expect(mockPodcastModel.findByPk).toHaveBeenCalledWith(1);
+    });
+
+    it('deve lançar erro se o ID não for fornecido', async () => { 
+        await expect( 
+            podcastService.getPodcastById(null, mockPodcastModel)
+        ).rejects.toThrow('ID do podcast é obrigatório');
+    });
+
+
+    it('deve lançar erro se o podcast não for encontrado pelo ID', async () => {
+        mockPodcastModel.findByPk.mockResolvedValue(null);
+
+        await expect(
+            podcastService.getPodcastById(999, mockPodcastModel)
+        ).rejects.toThrow('Podcast não encontrado');
+    });
 });

@@ -34,3 +34,17 @@ export const listPodcasts = async (PodcastModel, category = null) => {
 
 };
 
+export const getPodcastById = async (id, PodcastModel) => { 
+    if (!id) { 
+        throw new Error('ID do podcast é obrigatório');
+    }
+
+    const podcast = await PodcastModel.findByPk(id);
+    
+    if (!podcast) { 
+        throw new Error('Podcast não encontrado');
+    }
+
+    return podcast;
+}
+
