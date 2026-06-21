@@ -1,8 +1,11 @@
 <div class="upload-card">
-    <h1>Novo episódio</h1>
-    <p class="subtitle">Publicando em: <strong><%= podcast.title %></strong></p>
+    <h1><%= typeof podcast !== 'undefined' ? 'Editar podcast' : 'Novo podcast' %></h1>
+    <p class="subtitle">Preencha os dados do seu podcast.</p>
 
-    <form action="/podcasts/<%= podcast.id %>/upload" method="POST" enctype="multipart/form-data">
+    <form
+        action="<%= typeof podcast !== 'undefined' ? '/podcasts/' + podcast.id + '/edit' : '/podcasts' %>"
+        method="POST"
+        enctype="multipart/form-data">
 
         <div class="form-group">
             <label for="title">Título</label>
@@ -10,7 +13,8 @@
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Nome do episódio"
+                placeholder="Nome do podcast"
+                value="<%= typeof podcast !== 'undefined' ? podcast.title : '' %>"
                 required>
         </div>
 
@@ -25,7 +29,7 @@
             <textarea
                 id="description"
                 name="description"
-                placeholder="Sobre o que é este episódio?"></textarea>
+                placeholder="Sobre o que é este podcast?"><%= typeof podcast !== 'undefined' ? podcast.description : '' %></textarea>
         </div>
 
         <div class="form-group">
@@ -38,19 +42,19 @@
 
             <select id="category" name="category">
                 <option value="">Selecionar...</option>
-                <option>Tecnologia</option>
-                <option>Negócios</option>
-                <option>Educação</option>
-                <option>Entretenimento</option>
-                <option>Saúde</option>
-                <option>Outros</option>
+                <option <%= typeof podcast !== 'undefined' && podcast.category === 'Tecnologia' ? 'selected' : '' %>>Tecnologia</option>
+                <option <%= typeof podcast !== 'undefined' && podcast.category === 'Negócios' ? 'selected' : '' %>>Negócios</option>
+                <option <%= typeof podcast !== 'undefined' && podcast.category === 'Educação' ? 'selected' : '' %>>Educação</option>
+                <option <%= typeof podcast !== 'undefined' && podcast.category === 'Entretenimento' ? 'selected' : '' %>>Entretenimento</option>
+                <option <%= typeof podcast !== 'undefined' && podcast.category === 'Saúde' ? 'selected' : '' %>>Saúde</option>
+                <option <%= typeof podcast !== 'undefined' && podcast.category === 'Outros' ? 'selected' : '' %>>Outros</option>
             </select>
         </div>
 
         <!-- CAPA -->
 
         <div class="form-group">
-            <label>Capa do episódio</label>
+            <label>Capa do podcast</label>
 
             <label class="file-input-label">
                 <input
@@ -73,27 +77,8 @@
             </div>
         </div>
 
-        <!-- ÁUDIO -->
-
-        <div class="form-group">
-            <label>Arquivo de áudio</label>
-
-            <label class="file-input-label">
-                <input
-                    type="file"
-                    name="audio"
-                    accept="audio/*"
-                    required
-                    id="audio-input">
-
-                <span id="file-name">
-                    🎵 Clique para selecionar o arquivo
-                </span>
-            </label>
-        </div>
-
         <button type="submit" class="form-submit">
-            Publicar episódio
+            <%= typeof podcast !== 'undefined' ? 'Salvar alterações' : 'Criar podcast' %>
         </button>
 
     </form>
@@ -101,24 +86,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    const audioInput = document.getElementById('audio-input');
-    const fileName = document.getElementById('file-name');
-
-    if (audioInput) {
-
-        audioInput.addEventListener('change', function () {
-
-            if (this.files.length > 0) {
-
-                fileName.textContent =
-                    '🎵 ' + this.files[0].name;
-
-            }
-
-        });
-
-    }
 
     const coverInput =
         document.getElementById('cover-input');
