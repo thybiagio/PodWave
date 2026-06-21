@@ -97,4 +97,33 @@ describe('Podcast Service', () => {
             podcastService.getPodcastById(999, mockPodcastModel)
         ).rejects.toThrow('Podcast não encontrado');
     });
+
+    //----Atualizar Podcast----
+
+    it('deve lançar erro ao atualizar se o podcast não existir', async () => { 
+        mockPodcastModel.findByPk.mockResolvedValue(null);
+
+        await expect( 
+            podcastService.updatePodcast(999, { title: 'Novo Título' }, mockPodcastModel, 1)
+        ).rejects.toThrow('Podcast não encontrado');
+    });
+
+    it('deve lançar erro se outro usuário tentar editar o podcast', async () => { 
+        const podcastExistente = { id: 1, title: 'Tech Talks', userId: 1, update: vi.fn() };
+        mockPodcastModel.findByPk.mockResolvedValue(podcastExistente);
+
+        await expect( 
+            podcastService.updatePodcast(1, { title: 'Novo título' }, mockPodcastModel, 2)
+        ). rejects.toThrow('Você não tem permissão para editar este podcast');
+    });
+
+    it('deve atualizar o podcast com sucesso quando o usuário é o dono', async () => { 
+        const podcastExistente = { id: 1, title: 'Tech Talks', userId: 1, update: vi.fn().mockResolvedValue(true) };
+        mockPodcastModel.findByPk.mockResolvedValue(podcastExistente);
+
+        const result = await podcastService.updatePodcast(1, { title: 'Tech Talks Atualizado' }, mockPodcastModel, 1);
+        
+        expect(podcastExistente.update).toHaveBeenCalledWith({ title: 'Tech Talks Atualizado' });
+        expect(result.message).toBe('Podcast atualizado com sucesso!');
+    });
 });

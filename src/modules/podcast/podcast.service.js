@@ -48,3 +48,23 @@ export const getPodcastById = async (id, PodcastModel) => {
     return podcast;
 }
 
+export const updatePodcast = async (id, data, PodcastModel, userId) => { 
+    const podcast = await PodcastModel.findByPk(id);
+
+    if (!podcast) {
+        throw new Error('Podcast não encontrado');
+    }
+
+    if (podcast.userId !== userId) { 
+        throw new Error('Você não tem permissão para editar este podcast');
+    }
+
+    await podcast.update(data);
+
+    return { 
+        message: 'Podcast atualizado com sucesso!',
+        podcast
+    };
+
+};
+
