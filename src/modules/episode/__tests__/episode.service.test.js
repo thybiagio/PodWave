@@ -57,7 +57,7 @@ describe('Episode Service', () => {
     });
 
     it('deve lançar erro se podcastId não for informado', async () => { 
-        const data = { title: 'Episódio sem podcst' };
+        const data = { title: 'Episódio sem podcast' };
 
         await expect( 
             episodeService.publishEpisode(data, mockAudioFile, null, mockEpisodeModel, 1)
